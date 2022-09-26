@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xIj
+    +3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"
+    integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/
+    R44QB0dwY5gfbvljXcklVf65Gc4E16RjZ+lnwd2az2g==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+    <link href="main.css" rel="stylesheet">
+    
+</head>
+
+
+<body>
+
+    <div class="box">
+        <div class="left-box"></div>
+        <div class="right-box"></div>
+         <div class="cricle"></div>
+         <div class="line"></div>
+    </div>
+    <h4 class="box-vol">Volume : <span>0</span></h4>
+
+    <script>
+
+        let element = document.querySelector('.right-box');
+        let right_box = new Hammer(element);
+        right_box.get('pan').set({direction: Hammer.DIRECTION_ALL});
+
+        let box = $('.box');
+
+        right_box.on('pandown', function(e){
+            console.log(e.deltaY);
+            box.css('transform-origin', 'left top');
+            box.css('transform', 'rotate(${e.deltaY/10}deg)');
+            $('.circle').css('left', '+=' + e.deltaY/2)
+
+
+        })
+
+
+    </script>
+
+</body>
+</html>
