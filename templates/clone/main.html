@@ -191,25 +191,26 @@
             </div>
         </nav>
 
-        <!-- feed -->
+        <!-- nav -->
 
 
         <!-- feed -->
         <div class="main_body">
             <div class="left_body">
+                {% for feed in feed_list %}
                 <div class="border feed_box">
                     <div class="feed_name">
                         <div class="profile_box">
                             <img
                                 class="profile_img"
-                                src="https://image.newsis.com/2022/08/12/NISI20220812_0001062419_web.jpg?rnd=20220812145809"
+                                src="{{ feed.profile_image }}"
                             />
                         </div>
-                        <span class="feed_name_txt"> INSTACLONE </span>
+                        <span class="feed_name_txt"> {{ feed.user_id }} </span>
                     </div>
                     <img
                         class="feed_img"
-                        src="https://mblogthumb-phinf.pstatic.net/MjAxNzA2MTFfMjc1/MDAxNDk3MTcyMDgyNzEw.ID5RyHWKvsVEW2NS9EQGyRYX7vUaXr7znQeuTrRRmdIg.gK7MD7VhNJPkV4_dueiWer2y-oH7NAAmEklF-6bbYyQg.JPEG.jejubyeol/%EC%97%AC%EB%A6%84%EC%97%90_%EC%A0%9C%EC%A3%BC%EB%8F%84_%EC%82%AC%EC%A7%84%EC%B0%8D%EA%B8%B0_%EC%A2%8B%EC%9D%80%EA%B3%B3.jpg?type=w800"
+                        src="{{ feed.image }}"
                     />
 
                     <div class="feed_icon">
@@ -231,13 +232,12 @@
                         </div>
                     </div>
                     <div class="feed_like">
-                        <p class="feed_txt"><b>좋아요 10개</b></p>
+                        <p class="feed_txt"><b>{{ feed.like_count }}</b></p>
                     </div>
                     <div class="feed_content">
                         <p class="feed_txt">
-                            <b> INSTACLONE </b> 
-                            코로나라서 해외여행을 못가니 최근 제주도 가는사람이
-                            늘고있습니다~ 제주도도 조심해야되는건 마찬가지~!
+                            <b> {{ feed.user_id }} </b> 
+                            {{ feed.content }}
                         </p>
                     </div>
                     <div class="feed_reply">
@@ -245,6 +245,7 @@
                         <span class="feed_txt"> <b> cho </b> 제주도 ㄱ ㄱ </span>
                     </div>
                 </div>
+                {% endfor %}
                 <div class="border feed_box">
                     <div class="feed_name">
                         <div class="profile_box">
