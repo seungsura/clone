@@ -16,31 +16,64 @@ buttonCloseModal.addEventListener("click", e => {
   document.body.style.overflowY = "visible";
 });
 
-// drag and drop image upload
-const dropArea = document.querySelector('.modal_image_upload');
-const imagePreview = document.querySelector('#image_preview');
+// image drag modal
+const dropArea = document.querySelector(".drop_area");
 
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-  dropArea.addEventListener(eventName, preventDefaults, false)
-})
+dropArea.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropArea.classList.add("dragover");
+});
 
-function preventDefaults (e) {
-  e.preventDefault()
-  e.stopPropagation()
-}
+dropArea.addEventListener("dragleave", e => {
+    e.preventDefault();
+    dropArea.classList.remove("dragover");
+});
 
-dropArea.addEventListener('drop', handleDrop, false);
+dropArea.addEventListener("drop", e => {
+    e.preventDefault();
+    dropArea.classList.remove("dragover");
 
-function handleDrop(e) {
-  let dt = e.dataTransfer;
-  let file = dt.files[0];
-  let reader = new FileReader();
+    const file = e.dataTransfer.files[0];
 
-  reader.readAsDataURL(file);
+    if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
 
-  reader.onload = function() {
-    let img = new Image();
-    img.src = reader.result;
-    imagePreview.appendChild(img);
-  };
-}
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+            const image = new Image();
+            image.src = reader.result;
+
+            image.onload = () => {
+                const maxWidth = 700;
+                const maxHeight = 500;
+                const width = image.width;
+                const height = image.height;
+                let newWidth = width;
+                let newHeight = height;
+
+                if (width > height && width > maxWidth) {
+                    newWidth = maxWidth;
+                    newHeight = Math.floor(height / (width / maxWidth));
+                } else if (height > maxHeight) {
+                    newHeight = maxHeight;
+                    newWidth = Math.floor(width / (height / maxHeight));
+                }
+
+                const canvas = document.createElement("canvas");
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(image, 0, 0, newWidth, newHeight);
+
+                const img = document.createElement("img");
+                img.src = canvas.toDataURL("image/png");
+
+                const uploadContainer = document.querySelector(".modal_image_upload");
+                uploadContainer.innerHTML = "";
+                uploadContainer.appendChild(img);
+            };
+        };
+    }
+});
