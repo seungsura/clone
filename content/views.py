@@ -8,5 +8,6 @@ class Main(APIView):
 
     def get(self, request):
         print("get으로 호출")
-        feed_list = Feed.objects.all()  # select * from content_feed
+        #가장 최신글이 제일 상단에 오도록
+        feed_list = Feed.objects.all().order_by('-id')  # select * from content_feed
         return render(request, self.template_name, context=dict(feeds=feed_list))
